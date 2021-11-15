@@ -22,18 +22,21 @@ const LogIn = () => {
       loginUser(loginData.email, loginData.password, location, history);
       e.preventDefault();
   }
+  const handleGoogleSignin=()=>{
+    googleSinIn(location,history)
+  }
     return (
         <div className='form-control'>
         { !isLoading &&  <Form onSubmit={handleLoginSubmit} className='form'>
   <Form.Group className="mb-3" controlId="formBasicEmail">
     <Form.Label>Email address</Form.Label>
-    <Form.Control name='email' onChange={handleOnChange} type="email" placeholder="Enter email" />
+    <Form.Control className='text-light' name='email' onChange={handleOnChange} type="email" placeholder="Enter email" />
     
   </Form.Group>
 
   <Form.Group className="mb-3" controlId="formBasicPassword">
     <Form.Label>Password</Form.Label>
-    <Form.Control name='password' onChange={handleOnChange} type="password" placeholder="Password" />
+    <Form.Control className='text-light' name='password' onChange={handleOnChange} type="password" placeholder="Password" />
   </Form.Group>
  
  
@@ -46,7 +49,7 @@ const LogIn = () => {
   
   <Link className='register' to='/register'>New user? Please Register</Link>
   <p>-----------------------------------</p>
-<button onClick={googleSinIn}>google</button>
+<button onClick={handleGoogleSignin}>google</button>
 </Form>}
 {isLoading && <Spinner animation="border" variant="danger" />}<br/>
 

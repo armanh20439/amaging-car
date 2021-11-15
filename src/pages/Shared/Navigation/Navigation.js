@@ -12,8 +12,8 @@ const Navigation = () => {
         <>
      
         
-        <Navbar className='m-0 p-0' bg="white" variant="dark">
-          <Container>
+        <Navbar className='m-0  p-0' bg="white" variant="dark">
+          <Container className='navs'>
             <Navbar.Brand href="#home">
               <img
                 alt=""
@@ -25,13 +25,21 @@ const Navigation = () => {
            <span className='logo-text1'>AmazinG</span><span className='logo-text2'>Car</span>
             </Navbar.Brand>
 
-           <div>
+           <div className='d-flex navss '>
            <Link to='/home'><button className='btn link btn-danger'>Home</button></Link>
            <Link to='/products'><button className='btn link btn-danger'>Products</button></Link>
-            <Link to='/addProducts'><button className='btn link btn-danger'>AddProducts</button></Link>
+            
+            
            {
-             user?.email ? <div><p>{user.email}</p> <button onClick={logOut} className='btn link btn-danger'>LogOut</button></div>
-             : <Navbar.Text><Link to='/login'><button className='btn link btn-danger'>LogIn</button></Link></Navbar.Text>
+             user?.email ? <div> 
+             
+             <Link to='/dashbord'><button className='btn link btn-danger'>Dashbord</button></Link>
+
+              <button onClick={logOut} className='btn link btn-danger'>LogOut</button>
+             <p>{user.email}</p>
+             </div>
+             :<Navbar.Text><Link to='/login'><button className='btn link  logs btn-danger'>LogIn</button></Link></Navbar.Text>
+             
            }
            </div>
           </Container>

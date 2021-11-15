@@ -1,13 +1,18 @@
 import React from 'react';
+
 import axios from 'axios';
 
 import { useForm } from "react-hook-form";
 
-const AddProducts = () => {
+
+  
+    
+
+const Review = () => {
     const { register, handleSubmit,reset } = useForm();
     const onSubmit = data => {
         console.log(data);
-        axios.post('https://blooming-thicket-08850.herokuapp.com/product',data)
+        axios.post('https://blooming-thicket-08850.herokuapp.com/review',data)
         .then(res=>{
             if (res.data.insertedId) {
                 alert("Added successfully")
@@ -18,17 +23,18 @@ const AddProducts = () => {
     }
     return (
         <div>
-            <h1>Please add a product</h1>
+            <h1>Please add a Review</h1>
             <form onSubmit={handleSubmit(onSubmit)}>
-      <input {...register("name", { required: true, maxLength: 20 })} />
-      < input {...register("exterior")} placeholder='Exterior' />
-      <input {...register("key")} placeholder="key" />
-      <input type="number" {...register("price", )} placeholder='Price'/>
-      <input {...register("img")} placeholder='image url' />
+     
+      < textarea input {...register("review")} placeholder='review' />
+     <div> </div>
+      
       <input type="submit" />
     </form>
+   
+        
         </div>
     );
 };
 
-export default AddProducts;
+export default Review;

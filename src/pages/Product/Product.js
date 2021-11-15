@@ -1,8 +1,9 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import './Product.css'
 const Product = ({product}) => {
-    const {name,exterior,price,img}=product
+    const {name,exterior,price,img,_id}=product
     return (
      <div className='col-md-4'>
        <Card.Img variant="top" src={img} className='img-hover' />
@@ -14,7 +15,7 @@ const Product = ({product}) => {
     <Card.Text className='text-secondary'>
      Exterior: {exterior}
     </Card.Text >
-    <button variant="primary">Go somewhere</button>
+   <Link to={`/products/${_id}`}><button variant="primary">Purches</button></Link>
   </Card.Body>
 
      </div>

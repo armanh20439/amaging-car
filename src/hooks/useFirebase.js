@@ -1,39 +1,59 @@
 import { useEffect, useState } from "react";
 import initializeFiebase from "../pages/Firebase/firebase.init";
-import { getAuth,GoogleAuthProvider ,signInWithPopup, createUserWithEmailAndPassword,signOut,onAuthStateChanged,signInWithEmailAndPassword   } from "firebase/auth";
+import { getAuth,GoogleAuthProvider,updateProfile  ,signInWithPopup, createUserWithEmailAndPassword,signOut,onAuthStateChanged,signInWithEmailAndPassword   } from "firebase/auth";
 
 initializeFiebase()
 const useFirebase=()=>{
   const googleProvider = new GoogleAuthProvider();
   const [authError, setAuthError] = useState('');
     const [user,setUser]=useState({})
+    const [admin, setAdmin] = useState(false);
     const [isLoading,setIsLoading]=useState(true)
     const auth = getAuth();
     
     //google signIn
-    const googleSinIn=(email,password)=>{
+    const googleSinIn=(location,history)=>{
+      setIsLoading(true);
       signInWithPopup(auth, googleProvider)
       .then((result) => {
         setAuthError('')
         const user = result.user;
+        saveUser(user.email, user.displayName, 'PUT');
         setUser(user)
+        const destination=location?.state?.from ||'/'
+        history.replace(destination)
         
       }).catch((error) => {
         setAuthError(error.message);
-        const credential = GoogleAuthProvider.credentialFromError(error);
+        
         // ...
-      });
+      })
+      .finally(() => setIsLoading(false));
     }
 
-    const registerUser=(email,password,location,history)=>{
+    const registerUser=(email,password,name,history)=>{
       setIsLoading(true);
         createUserWithEmailAndPassword(auth,email,password)
         .then((userCredential) => {
             // Signed in 
-            const destination=location?.state?.from ||'/'
-        history.replace(destination)
+            
             
             setAuthError('')
+            const newUser={email,displayName:name}
+            setUser(newUser)
+            // save user to the database
+            saveUser(email, name, 'POST');
+            updateProfile(auth.currentUser, {
+              displayName: {name}, 
+            }).then(() => {
+              // Profile updated!
+              // ...
+            }).catch((error) => {
+              // An error occurred
+              // ...
+            });
+            
+            history.replace('/')
             // ...
           })
           .catch((error) => {
@@ -77,6 +97,14 @@ useEffect(() => {
   return () => unsubscribed;
 }, [])
 
+// admin 
+
+useEffect(() => {
+  fetch(`https://blooming-thicket-08850.herokuapp.com/users/${user.email}`)
+      .then(res => res.json())
+      .then(data => setAdmin(data.admin))
+}, [user.email])
+
     //logout
     const logOut=()=>{
       setIsLoading(true);
@@ -88,10 +116,22 @@ useEffect(() => {
           .finally(() => setIsLoading(false));
 
     }
+    const saveUser = (email, displayName, method) => {
+      const user = { email, displayName };
+      fetch('https://blooming-thicket-08850.herokuapp.com/users', {
+          method: method,
+          headers: {
+              'content-type': 'application/json'
+          },
+          body: JSON.stringify(user)
+      })
+          .then()
+  }
 
     return{
         user,
         isLoading,
+        admin,
         authError,
         registerUser,
         logOut,

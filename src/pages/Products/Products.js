@@ -11,6 +11,7 @@ const Products = () => {
     },[])
     return (
  <Container>
+     <h2 className='text-info text-center py-5'>All Explore Item </h2>
             <div className='row'>
   {
             products.map(product=><Product 
