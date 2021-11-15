@@ -1,8 +1,13 @@
-# Getting Started with Create React App
+# Amazing Car House
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Amazing car](https://amazing-car-house.web.app/).
 
 ## Available Scripts
+1. This website use by car house;
+2. you go this website you know about world car price. and buy car;
+3.if you go purchase you must loin, 
+4. user see dashbord,my order,review
+5.admin see addProduct,mange All order,
 
 In the project directory, you can run:
 
